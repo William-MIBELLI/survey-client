@@ -1,24 +1,29 @@
 import React from "react";
 import { Button } from "../components/ui/button";
+import { Link } from "react-router";
 
 const Home = () => {
   return (
     <div className="flex flex-col items-center justify-between h-dvh relative">
       <nav className=" border-b-4 border-black bg-white w-full h-[100px] px-6 flex justify-between items-center  z-30">
-        <div className="titleFont  text-3xl h-full text-orange-500 border-r-4 flex items-center justify-center border-black pr-6">
+        <div className="titleFont  text-4xl h-full text-orange-600 border-r-4 flex items-center justify-center border-black pr-6">
           <div className="mx-4">SurveyGen</div>
         </div>
         <div className="flex gap-8 mr-14">
-          <button className="border-4 bg-green-500 transition duration-100 rotate-2 hover:-rotate-2 hover:bg-green-400 border-black shadowP min-w-28  p-2 shadowButton cursor-pointer  font-semibold">
-            Login
-          </button>
-          <button className="border-4 border-black shadowP min-w-28 -rotate-2 transition duration-100 hover:rotate-2  p-2 shadowButton cursor-pointer bg-fuchsia-500 font-semibold">
-            signup
-          </button>
+          <Link to={"login"}>
+            <button className="border-4 bg-green-500 transition duration-100 rotate-2 hover:-rotate-2 hover:bg-green-400 border-black shadowP min-w-28  p-2 shadowButton cursor-pointer  font-semibold">
+              Login
+            </button>
+          </Link>
+          <Link to={"signup"}>
+            <button className="border-4 border-black shadowP min-w-28 -rotate-2 transition duration-100 hover:rotate-2  p-2 shadowButton cursor-pointer bg-fuchsia-500 font-semibold">
+              signup
+            </button>
+          </Link>
         </div>
       </nav>
 
-      <div className="bg-orange-500 w-1/4 h-3/12 rounded-t-full absolute bottom-0 -left-50 z-0">
+      <div className="bg-orange-600 w-1/4 h-3/12 rounded-t-full absolute bottom-0 -left-50 z-0">
         {" "}
       </div>
       <div className="z-10 h-full  flex items-center justify-between border-black">
@@ -37,7 +42,7 @@ const Home = () => {
             <button className="border-4 border-black shadowP rotate-2  p-2 shadowButton cursor-pointer bg-green-500 font-semibold">
               Create my survey
             </button>
-            <button className="border-4 border-black shadowP -rotate-2 p-2  shadowButton cursor-pointer bg-orange-500 font-semibold">
+            <button className="border-4 border-black shadowP -rotate-2 p-2  shadowButton cursor-pointer bg-yellow-500 font-semibold">
               Check available survey
             </button>
           </div>
