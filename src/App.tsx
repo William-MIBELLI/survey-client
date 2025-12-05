@@ -1,35 +1,102 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div
+      style={{
+        backgroundColor: "white",
+        borderRadius: "10px",
+        boxShadow: "0 4px 6px -1px #A4ACB9",
+        maxWidth: "600px",
+        fontFamily: "sans-serif",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "start",
+        margin: "auto",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "start",
+          paddingLeft: "1rem",
+          rowGap: "3",
+          backgroundColor: "#E6EFEF",
+          borderRadius: "10px 10px 0 0"
+        }}
+      >
+        <img
+          src="./src/assets/nextone-green.svg"
+          height={"40px"}
+          width={"40px"}
+          alt="NextONE Logo"
+        />
+        <h1
+          style={{
+            color: "#1F2511",
+            fontWeight: "bolder",
+          }}
+        >
+          NextONE
+        </h1>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+      <div
+        style={{
+          color: "#6D6D6D",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "start",
+          padding: "2rem",
+          fontSize: "0.9rem"
+        }}
+      >
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Une demande de réinitialisation de mot de passe a été effectué avec
+          cette adresse email.
+        </p>
+        <p style={{
+          fontWeight: "bold"
+        }}>
+          Pour finaliser la la demande, merci de cliquer sur le lien ci-dessous{" "}
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+      <a
+        style={{
+          padding: "0.7rem",
+          borderRadius: "10px",
+          backgroundColor: "#1F2511",
+          border: "none",
+          color: "white",
+          fontWeight: "bold",
+          textDecoration: "none",
+          alignSelf: "center"
+        }}
+        target="_blank"
+        href="${uri}/resetpassword/${token}"
+      >
+        Réinitialiser le mot de passe
+      </a>
+      <p
+        style={{
+          fontSize: "0.6rem",
+          color: "gray",
+          fontStyle: "italic",
+          paddingBottom: "1rem",
+          margin: "auto",
+          marginTop: "1rem",
+        }}
+      >
+        Ceci est un email automatique, merci de ne pas y répondre
       </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
