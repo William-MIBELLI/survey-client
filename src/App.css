@@ -14,8 +14,8 @@
   /* C'est ici que la magie opère */
   background: repeating-linear-gradient(
     -45deg,             /* L'angle (45deg pour une diagonale) */
-    transparent,       /* Couleur de départ du "vide" */
-    transparent 10px,  /* Largeur du "vide" (ici 10px) */
+    white,       /* Couleur de départ du "vide" */
+    white 10px,  /* Largeur du "vide" (ici 10px) */
     #000 10px,         /* Couleur de la ligne (commence juste après le vide) */
     #000 14px          /* Fin de la ligne (10px à 11px = ligne de 1px d'épaisseur) */
   );
@@ -23,11 +23,15 @@
 
 
 .shadowDiv {
-  box-shadow: black 7px 7px 0px;
+  box-shadow: black 12px 12px 0px;
 }
 
 .shadowButton {
-  box-shadow: black 4px 4px 0px;
+  box-shadow: black 6px 6px 0px;
+}
+
+.shadowInput {
+  box-shadow: black 6px 6px 0px;
 }
 /* #root {
   max-width: 1280px;
