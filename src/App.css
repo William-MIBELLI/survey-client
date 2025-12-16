@@ -33,6 +33,10 @@
 .shadowInput {
   box-shadow: black 6px 6px 0px;
 }
+
+.errorInputMessage {
+  @apply text-xs text-red-500 font-semibold text-center mt-1
+}
 /* #root {
   max-width: 1280px;
   margin: 0 auto;

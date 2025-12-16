@@ -1,7 +1,11 @@
 import Side from "../components/skin/Side";
 import Button from "../components/ui/Button";
+import { useAuthContext } from "../contexts/auth.context";
 
 const Home = () => {
+
+  const context = useAuthContext()
+
   return (
     <>
       <div className="bg-orange-600 w-1/4 h-3/12 rounded-t-full absolute bottom-0 -left-50 z-0">

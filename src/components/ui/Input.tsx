@@ -1,16 +1,28 @@
-import React, { type FC } from 'react'
+import React, { type FC } from "react";
+import type { FieldError } from "react-hook-form";
 
 interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
+  label: string;
+  error?: FieldError;
 }
 
 const Input: FC<IProps> = (props) => {
   return (
-    <div className='flex flex-col'>
-      <label className='text-xs' htmlFor={props.name}>{props.label}</label>
-      <input className='border-4 border-black bg-blue-100 shadowInput px-2 py-1 outline-none'  {...props} />
+    <div className="flex flex-col">
+      <label className="text-xs" htmlFor={props.name}>
+        {props.label}
+      </label>
+      <input
+        className="border-4 border-black bg-blue-100 shadowInput px-2 py-1 outline-none"
+        {...props}
+      />
+      {props.error && (
+        <p className="errorInputMessage">
+          {props.error.message}
+        </p>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Input
+export default Input;
