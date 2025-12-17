@@ -21,6 +21,10 @@
   );
 }
 
+.titleShadow {
+  text-shadow: 7px 7px 0px black;
+}
+
 
 .shadowDiv {
   box-shadow: black 12px 12px 0px;

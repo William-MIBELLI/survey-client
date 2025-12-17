@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "../../contexts/auth.context";
 import type { SigninMutation } from "../../gql/generated";
 import { ME } from "../../lib/queries/auth.query";
+import Form from "./Form";
 
 const LoginForm = () => {
   const [signin, { data, loading, error }] = useMutation<
@@ -56,10 +57,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-1/2 h-1/2 max-w-[500px] bg-white  border-black border-4 m-auto shadowDiv flex flex-col gap-2 p-10 z-10"
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Input
         placeholder="example@mail.com"
         label="Email"
@@ -89,7 +87,7 @@ const LoginForm = () => {
         </Link>
       </div>
       {error && <p className="errorInputMessage">{error.message}</p>}
-    </form>
+    </Form>
   );
 };
 
