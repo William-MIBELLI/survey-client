@@ -9,7 +9,7 @@ const Signup = () => {
         <p className='font-semibold ml-30'>Signup in a minute,for free, and start to build the survey you dream of 🤩</p>
       </div>
       <SignupForm/>
-      <img className="w-1/6 absolute bottom-60 right-50 z-10" src="src/assets/login.png"></img>
+      <img className="w-1/6 absolute bottom-60 right-50 z-10" src="/src/assets/login.png"></img>
 
     </div>
   )
