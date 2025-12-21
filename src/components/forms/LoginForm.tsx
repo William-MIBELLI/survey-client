@@ -40,12 +40,10 @@ const LoginForm = () => {
         },
       },
       onCompleted: (data) => {
-        console.log("DATA DANS ONCOMPLETED : ", data);
         navigate("/");
       },
       update: (cache, { data }) => {
         if (!data?.user) return;
-        console.log("UPDATE : ", data.user)
         cache.writeQuery({
           query: ME,
           data: {

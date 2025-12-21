@@ -4,7 +4,7 @@ import { useAuthContext } from "../../contexts/auth.context";
 import Button from "../../components/ui/Button";
 
 const Header = () => {
-  const { user, logout } = useAuthContext();
+  const { user, logout, loading } = useAuthContext();
 
   return (
     <nav className=" border-b-4 border-black bg-white w-full h-[100px] px-6 flex justify-between items-center  z-30">
@@ -12,7 +12,7 @@ const Header = () => {
         <div className="mx-4">Qrafter</div>
       </div>
       <div className="flex gap-8 mr-14">
-        {!user ? (
+        { loading ? (<div>...</div>) : !user ? (
           <>
             <Link to={"login"}>
               <button className="border-4 bg-green-500 transition duration-100 rotate-2 hover:-rotate-2 hover:bg-green-400 border-black shadowP min-w-28  p-2 shadowButton cursor-pointer  font-semibold">

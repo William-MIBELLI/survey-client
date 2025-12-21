@@ -2,134 +2,152 @@ import Form from "./Form";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { useNavigate, useParams } from "react-router";
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { signUpSchema, type SignupSchema } from "../../lib/zod";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SIGNUP } from "../../lib/mutations/auth.mutation";
+import type {
+  QueryUserByEmailArgs,
+  SignupMutation,
+  SignupMutationVariables,
+  UserByEmailQuery,
+} from "../../gql/generated";
+import { useLazyQuery, useMutation } from "@apollo/client/react";
+import { ME, USER_BY_EMAIL } from "../../lib/queries/auth.query";
+import StepEmail from "../signup/StepEmail";
+import StepIdentity from "../signup/StepIdentity";
+import StepPassword from "../signup/StepPassword";
+import StepSuccess from "../signup/StepSuccess";
+import Stepper from "../signup/Stepper";
 
 const FINAL_PART = 3;
 
 const SignupForm = () => {
   const { step } = useParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<SignupSchema>({
-    email: "",
-    firstname: "",
-    lastname: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [success, setSuccess] = useState<boolean>(false);
+
+  const [signup, { loading }] = useMutation<
+    SignupMutation,
+    SignupMutationVariables
+  >(SIGNUP);
+  const [checkEmail, { loading: userLoading }] = useLazyQuery<
+    UserByEmailQuery,
+    QueryUserByEmailArgs
+  >(USER_BY_EMAIL);
 
   const mappedStep = parseInt(step?.replace(/[\D]/g, "") || "1", 10);
   const currentStep = mappedStep > FINAL_PART ? 1 : mappedStep;
 
   const onPreviousHandler = () => navigate(`/signup/${currentStep - 1}`);
-  const onNextHandler = () => navigate(`/signup/${currentStep + 1}`);
 
-  const onUpdateHandler = (data: string, key: keyof SignupSchema) => {
-    setFormData({ ...formData, [key]: data });
-    console.log("FORMDATA : ", formData);
+  const onNextHandler = async () => {
+    if (currentStep === 1) {
+      const res = await methods.trigger("email");
+      if (!res) return;
+      const mail = await checkEmail({
+        variables: {
+          email: methods.getValues("email"),
+        },
+      });
+      if (mail.data?.userByEmail !== null) {
+        console.log("EMAIL : ", mail);
+        methods.setError("email", {
+          message: "An account is already associated with this email address.",
+        });
+        return;
+      }
+    }
+    if (currentStep === 2) {
+      const res = await methods.trigger(["firstname", "lastname"]);
+      if (!res) return;
+    }
+    if (currentStep === 3) {
+      const res = await methods.trigger(["password", "confirmPassword"]);
+      if (!res) return;
+    }
+    navigate(`/signup/${currentStep + 1}`);
   };
 
-  const { formState, register, } = useForm({
+  const onSubmitHandler = (data: SignupSchema) => {
+    signup({
+      variables: {
+        args: {
+          ...methods.getValues(),
+          isPremium: false,
+        },
+      },
+      update: (cache, { data }) => {
+        if (!data?.signup) return;
+        cache.writeQuery({
+          query: ME,
+          data: {
+            me: data.signup,
+          },
+        });
+      },
+      onCompleted: (data) => {
+        setSuccess(true)
+      },
+    });
+  };
+
+  const methods = useForm<SignupSchema>({
     resolver: zodResolver(signUpSchema),
-    reValidateMode: "onChange"
-  })
+    reValidateMode: "onChange",
+    mode: "onSubmit"
+  });
 
   return (
-    <Form>
-      {currentStep === 1 && (
-        <Step1 values={[formData.email]} update={onUpdateHandler} />
-      )}
-      {currentStep === 2 && (
-        <Step2
-          values={[formData.firstname, formData.lastname]}
-          update={onUpdateHandler}
-        />
-      )}
-      {currentStep === 3 && (
-        <Step3
-          values={[formData.password, formData.confirmPassword]}
-          update={onUpdateHandler}
-        />
-      )}
-
-      <div className="flex w-full  gap-4 my-5">
-        {currentStep > 1 && (
-          <Button
-            text="Previous"
-            onClick={onPreviousHandler}
-            className="w-full"
-            type="button"
-          />
-        )}
-        {currentStep === FINAL_PART ? (
-          <Button text="Signup" type="submit" className="w-full" />
+    <FormProvider {...methods}>
+      <Form onSubmit={methods.handleSubmit(onSubmitHandler)}>
+        <Stepper currentStep={currentStep} maxStep={FINAL_PART} isSuccess={success} />
+        {!success ? (
+          currentStep === 1 ? (
+            <StepEmail />
+          ) : currentStep === 2 ? (
+            <StepIdentity />
+          ) : (
+            currentStep === 3 && <StepPassword />
+          )
         ) : (
-          <Button
-            text="Next"
-            onClick={onNextHandler}
-            className="w-full"
-            type="button"
-          />
+          <StepSuccess />
         )}
-      </div>
-    </Form>
+        {!success && (
+          <div className="flex w-full  gap-4 my-5">
+            {currentStep > 1 && (
+              <Button
+                text="Previous"
+                onClick={onPreviousHandler}
+                className="w-full"
+                type="button"
+              />
+            )}
+            {currentStep === FINAL_PART ? (
+              <Button
+                text="Signup"
+                type="submit"
+                className="w-full"
+                loading={loading}
+              />
+            ) : (
+              <Button
+                text="Next"
+                onClick={onNextHandler}
+                className="w-full"
+                type="button"
+                loading={userLoading}
+              />
+            )}
+          </div>
+        )}
+      </Form>
+    </FormProvider>
   );
 };
 
 export default SignupForm;
-
-interface IProps {
-  values: string[];
-  update: (data: string, key: keyof SignupSchema) => void;
-}
-
-const Step1: FC<IProps> = ({ values, update }) => {
-  return (
-    <>
-      <Input
-        label="Email"
-        value={values[0]}
-        onChange={(e) => update(e.target.value, "email")}
-      />
-    </>
-  );
-};
-
-const Step2: FC<IProps> = ({ values, update }) => {
-  return (
-    <>
-      <Input
-        label="Firstname"
-        value={values[0]}
-        onChange={(e) => update(e.target.value, "firstname")}
-      />
-      <Input
-        label="Lastname"
-        value={values[1]}
-        onChange={(e) => update(e.target.value, "lastname")}
-      />
-    </>
-  );
-};
-
-const Step3: FC<IProps> = ({ values, update }) => {
-  return (
-    <>
-      <Input
-        label="Password"
-        value={values[0]}
-        onChange={(e) => update(e.target.value, "password")}
-      />
-      <Input
-        label="Confirm password"
-        value={values[1]}
-        onChange={(e) => update(e.target.value, "confirmPassword")}
-      />
-    </>
-  );
-};
 
 //PART 1 => EMAIL
 

@@ -20,3 +20,15 @@ export const LOGOUT = gql`
     }
   }
 `;
+
+export const SIGNUP = gql`
+  mutation Signup($args: SignupInput!) {
+    signup(args: $args) {
+      id
+      email
+      firstname
+      lastname
+      isPremium
+    }
+  }
+`;
