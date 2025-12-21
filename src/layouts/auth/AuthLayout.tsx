@@ -15,7 +15,7 @@ const AuthLayout = () => {
         <Outlet />
         <Side />
       </div>
-      <div className="absolute -left-100  h-2/4 w-2/3 max-w-[900px] bottom-0  bg-purple-500 rounded-t-full"></div>
+      <div className="absolute -left-100  h-2/4 w-2/3 max-w-[900px] bottom-0 bg-purple-500 rounded-t-full"></div>
       <Footer />
     </div>
   );

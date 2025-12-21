@@ -16,7 +16,7 @@ const StepSuccess = () => {
     return () => clearInterval(interval)
   },[timer])
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
+    <div className="w-full my-auto flex flex-col items-center justify-center">
       <div className="flex font-semibold items-center">
         Congrats ! You' re now register on
         <p className="text-orange-500 text-lg font-bold mx-2">Qrafter</p>
