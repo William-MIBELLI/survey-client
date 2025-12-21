@@ -33,3 +33,22 @@ export const signUpSchema = z
   });
 
 export type SignupSchema = z.infer<typeof signUpSchema>;
+
+export const askResetPassword = z.object({
+  email: z.email(),
+});
+
+export type TAskResetPassword = z.infer<typeof askResetPassword>;
+
+export const resetPasswordSchema = signUpSchema
+  .pick({
+    email: true,
+    password: true,
+    confirmPassword: true,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Password and confirmation have to match.",
+  });
+
+export type TResetPasswordSchema = z.infer<typeof resetPasswordSchema>;

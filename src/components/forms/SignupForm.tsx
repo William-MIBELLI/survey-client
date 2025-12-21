@@ -1,10 +1,9 @@
 import Form from "./Form";
-import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState, type FC } from "react";
 import { signUpSchema, type SignupSchema } from "../../lib/zod";
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SIGNUP } from "../../lib/mutations/auth.mutation";
 import type {
@@ -27,7 +26,7 @@ const SignupForm = () => {
 
   const { step } = useParams();
   const navigate = useNavigate();
-  const [success, setSuccess] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(true);
 
   const [signup, { loading, error: signupError }] = useMutation<
     SignupMutation,
@@ -130,7 +129,7 @@ const SignupForm = () => {
             currentStep === 3 && <StepPassword />
           )
         ) : (
-          <StepSuccess />
+          <StepSuccess message="You' re now register on Qrafter !" title="Congrats!" />
         )}
         {!success && (
           <div className="flex w-full  gap-4 my-5">
@@ -170,11 +169,3 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
-
-//PART 1 => EMAIL
-
-//PART 2 => NOM PRENOM
-
-//PART 3 => PASSWORD
-
-//PART 4 => PHOTO

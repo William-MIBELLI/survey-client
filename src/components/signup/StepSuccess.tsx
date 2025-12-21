@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type FC } from "react";
 import { useNavigate } from "react-router";
 
-const StepSuccess = () => {
+interface IProps {
+  message: string
+  title: string
+}
+
+const StepSuccess: FC<IProps> = ({ message, title }) => {
 
   const [timer, setTimer] = useState<number>(5)
   const navigate = useNavigate()
@@ -17,9 +22,13 @@ const StepSuccess = () => {
   },[timer])
   return (
     <div className="w-full my-auto flex flex-col items-center justify-center">
-      <div className="flex font-semibold items-center">
-        Congrats ! You' re now register on
-        <p className="text-orange-500 text-lg font-bold mx-2">Qrafter</p>
+      <div className="flex flex-col font-semibold items-center gap-3">
+        <p className="font-bold text-orange-500 text-xl">
+          {title}
+        </p>
+        <p>
+        {message}
+        </p>
       </div>
       <p className="text-xs text-gray-400">
         You will be redirect on {timer}

@@ -6,6 +6,8 @@ import HomeLayout from "./layouts/home/HomeLayout";
 import Login from "./routes/Login";
 import Signup from "./routes/Signup";
 import Home from "./routes/Home";
+import AskResetPassword from "./routes/AskResetPassword";
+import NewPassword from "./routes/NewPassword";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="signup/:step?" element={<Signup />} />
+          <Route path="resetPassword" element={<AskResetPassword />} />
+          <Route path="newPassword/:token" element={<NewPassword/>} />
         </Route>
       </Routes>
     </BrowserRouter>

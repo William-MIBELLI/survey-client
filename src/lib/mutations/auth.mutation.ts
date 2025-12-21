@@ -32,3 +32,24 @@ export const SIGNUP = gql`
     }
   }
 `;
+
+export const ASK_RESET_PASSWORD = gql`
+  mutation AskResetPassword($email: String!) {
+    askResetPassword(email: $email) {
+      success
+      message
+    }
+  }
+`;
+
+export const RESET_PASSWORD = gql`
+  mutation ResetPassword($args: ResetPasswordInput!) {
+    resetPassword(args: $args) {
+      id
+      email
+      firstname
+      lastname
+      isPremium
+    }
+  }
+`;

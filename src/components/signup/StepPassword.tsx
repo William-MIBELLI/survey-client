@@ -9,7 +9,7 @@ const StepPassword = () => {
     trigger,
     watch,
     formState: { errors },
-  } = useFormContext<SignupSchema>();
+  } = useFormContext<{ password: string, confirmPassword: string}>();
 
   const passwordValue = watch("password") || "";
 
@@ -39,7 +39,7 @@ const StepPassword = () => {
       <div className="grid mx-auto grid-cols-2 gap-x-9 font-semibold text-xs mb-3 ">
         <p className={getStatusColor(checks.uppercase)}>1 Uppercase</p>
         <p className={getStatusColor(checks.lowercase)}>1 Lowercase</p>
-        <p className={getStatusColor(checks.number)}>1 Number</p>
+        <p className={getStatusColor(checks.number)}>1 Digit</p>
         <p className={getStatusColor(checks.special)}>1 Special char : @$!%*?&</p>
         <p className={getStatusColor(checks.length)}>8 Chars minimum</p>
       </div>
