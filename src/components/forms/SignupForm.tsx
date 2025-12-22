@@ -26,7 +26,7 @@ const SignupForm = () => {
 
   const { step } = useParams();
   const navigate = useNavigate();
-  const [success, setSuccess] = useState<boolean>(true);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const [signup, { loading, error: signupError }] = useMutation<
     SignupMutation,

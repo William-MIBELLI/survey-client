@@ -42,7 +42,7 @@ const AskResetPassword = () => {
     <div className="flex flex-col w-full h-full bg-teal-300 items-center justify-center">
       <div className="flex flex-col gap-7">
         <h1 className="titleFont text-9xl my-3">Password lost ?</h1>
-        <p className="font-semibold ml-50 bg-white p-1 text-center">
+        <p className="font-semibold ml-80 bg-white p-1 text-center w-fit">
           Can't retrieve your password 🥺? Don't worry, you're on the right
           place.
         </p>
