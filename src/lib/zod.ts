@@ -52,3 +52,13 @@ export const resetPasswordSchema = signUpSchema
   });
 
 export type TResetPasswordSchema = z.infer<typeof resetPasswordSchema>;
+
+export const createSurveySchema = z.object({
+  name: z.string().min(2).max(50),
+  description: z.string().min(10).max(255),
+  isPublic: z.boolean(),
+  startDate: z.iso.date({ message: "The date is not valid"}).optional(),
+  endDate: z.iso.date({ message: "The date is not valid"}).optional()
+})
+
+export type TCreateSurveySchema = z.infer<typeof createSurveySchema>

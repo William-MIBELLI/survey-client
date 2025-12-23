@@ -8,6 +8,10 @@ import Signup from "./routes/Signup";
 import Home from "./routes/Home";
 import AskResetPassword from "./routes/AskResetPassword";
 import NewPassword from "./routes/NewPassword";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import Dashboard from "./routes/Dashboard";
+import DashboardLayout from "./layouts/dashboard/Dashboard.layout";
+import CreateSurvey from "./routes/CreateSurvey";
 
 function App() {
   return (
@@ -20,7 +24,15 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup/:step?" element={<Signup />} />
           <Route path="resetPassword" element={<AskResetPassword />} />
-          <Route path="newPassword/:token" element={<NewPassword/>} />
+          <Route path="newPassword/:token" element={<NewPassword />} />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="createSurvey" element={<CreateSurvey />} />
+          </Route>
+          {/* <Route element={<HomeLayout />}>
+          </Route> */}
         </Route>
       </Routes>
     </BrowserRouter>

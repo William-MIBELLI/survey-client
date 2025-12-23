@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import { useMutation } from "@apollo/client/react";
@@ -20,7 +20,9 @@ const LoginForm = () => {
 
   const {} = useAuthContext();
   const navigate = useNavigate();
+  const location = useLocation()
 
+  console.log("LCOATION : ", location)
   const {
     handleSubmit,
     register,
@@ -40,7 +42,7 @@ const LoginForm = () => {
         },
       },
       onCompleted: (data) => {
-        navigate("/");
+        navigate(location.state.from.pathname || '/');
       },
       update: (cache, { data }) => {
         if (!data?.user) return;

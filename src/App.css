@@ -3,6 +3,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
+
+h1, h2, h3, h4 {
+    /* On réserve Abril Fatface uniquement pour les titres */
+    font-family: 'Abril Fatface', serif;
+    font-weight: 400; /* Cette police n'a généralement qu'un seul poids */
+    text-transform: none; /* Ou uppercase si vous voulez un look plus agressif */
+}
+
 .titleFont {
   font-family: "Abril Fatface", serif;
   font-weight: 400;
@@ -37,6 +46,10 @@
 
 
 .shadowDiv {
+  box-shadow: black 12px 12px 0px;
+}
+
+.shadowDivSM {
   box-shadow: black 12px 12px 0px;
 }
 
