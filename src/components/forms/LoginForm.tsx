@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import { useMutation } from "@apollo/client/react";
-import type { MutationSigninArgs, User } from "../../gql/graphql";
+import type { MutationSigninArgs, User } from "../../gql/generated";
 import { signInSchema, type SignInSchema } from "../../lib/zod";
 import { SIGNIN } from "../../lib/mutations/auth.mutation";
 import { useForm } from "react-hook-form";
@@ -22,7 +22,6 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const location = useLocation()
 
-  console.log("LCOATION : ", location)
   const {
     handleSubmit,
     register,
@@ -44,7 +43,7 @@ const LoginForm = () => {
       onCompleted: (data) => {
         navigate(location.state.from.pathname || '/');
       },
-      update: (cache, { data }) => {
+      update: async (cache, { data }) => {
         if (!data?.user) return;
         cache.writeQuery({
           query: ME,

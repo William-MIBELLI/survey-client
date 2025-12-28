@@ -6,8 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { askResetPassword, type TAskResetPassword } from "../lib/zod";
 import { useMutation } from "@apollo/client/react";
-import type { AskResetPasswordMutation } from "../gql/generated";
-import type { MutationAskResetPasswordArgs } from "../gql/graphql";
+import type { AskResetPasswordMutation , MutationAskResetPasswordArgs} from "../gql/generated";
 import { ASK_RESET_PASSWORD } from "../lib/mutations/auth.mutation";
 
 const AskResetPassword = () => {

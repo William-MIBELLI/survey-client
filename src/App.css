@@ -49,8 +49,8 @@ h1, h2, h3, h4 {
   box-shadow: black 12px 12px 0px;
 }
 
-.shadowDivSM {
-  box-shadow: black 12px 12px 0px;
+.shadowIconBtn {
+  box-shadow: black 4px 4px 0px;
 }
 
 .shadowButton {

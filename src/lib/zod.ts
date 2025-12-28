@@ -53,12 +53,33 @@ export const resetPasswordSchema = signUpSchema
 
 export type TResetPasswordSchema = z.infer<typeof resetPasswordSchema>;
 
-export const createSurveySchema = z.object({
-  name: z.string().min(2).max(50),
-  description: z.string().min(10).max(255),
-  isPublic: z.boolean(),
-  startDate: z.iso.date({ message: "The date is not valid"}).optional(),
-  endDate: z.iso.date({ message: "The date is not valid"}).optional()
-})
+export const createSurveySchema = z
+  .object({
+    name: z.string().min(2).max(50),
+    description: z.string().min(10).max(255),
+    isPublic: z.boolean(),
+    startDate: z.iso
+      .date({ message: "The date is not valid" })
+      .optional()
+      .or(z.literal("").transform((arg) => undefined)),
+    endDate: z.iso
+      .date({ message: "The date is not valid" })
+      .optional()
+      .or(z.literal("").transform((arg) => undefined)),
+  })
+  .refine(
+    (data) => {
+      if (!data.endDate) return true;
+      if (data.endDate && !data.startDate) {
+        return new Date(data.endDate).getTime() > Date.now();
+      }
+      if (data.endDate && data.startDate) {
+        return (
+          new Date(data.endDate).getTime() > new Date(data.startDate).getTime()
+        );
+      }
+    },
+    { message: "End date must be after the start.", path: ["endDate"] }
+  );
 
-export type TCreateSurveySchema = z.infer<typeof createSurveySchema>
+export type TCreateSurveySchema = z.infer<typeof createSurveySchema>;

@@ -1,5 +1,5 @@
 import Button from '../../components/ui/Button'
-import { Outlet, useNavigate } from 'react-router'
+import { Link, Outlet, useNavigate } from 'react-router'
 
 const DashboardLayout = () => {
 
@@ -12,7 +12,7 @@ const DashboardLayout = () => {
           <p className="hover:text-white cursor-pointer">
             Dashboard
           </p>
-          <p>My surveys</p>
+          <Link to={"/dashboard/mysurveys"}>My surveys</Link>
           <p>My Participation</p>
           <p>Invitations</p>
         </div>
@@ -21,8 +21,8 @@ const DashboardLayout = () => {
         <div className="flex border-b-2 bg-white border-black h-25 w-full items-center justify-between px-5">
           <p className="font-semibold text-4xl">Dashboard</p>
           <div>
-            <Button popoverTarget='create-popover'  text="New survey" className="bg-white" />
-            {/* <Button onClick={() => navigate("/dashboard/createSurvey")}  text="New survey" className="bg-white" /> */}
+            {/* <Button popoverTarget='create-popover'  text="New survey" className="bg-white" /> */}
+            <Button onClick={() => navigate("/dashboard/createSurvey")}  text="New survey" className="bg-white" />
           </div>
         </div>
         <Outlet/>

@@ -2,7 +2,7 @@ import {
   createContext,
   useContext,
 } from "react";
-import type { User } from "../gql/graphql";
+import type { User } from "../gql/generated";
 import { useMutation, useQuery } from "@apollo/client/react";
 import type { MeQuery, SignoutMutation } from "../gql/generated";
 import { ME } from "../lib/queries/auth.query";

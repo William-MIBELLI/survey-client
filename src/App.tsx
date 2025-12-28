@@ -12,6 +12,8 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import Dashboard from "./routes/Dashboard";
 import DashboardLayout from "./layouts/dashboard/Dashboard.layout";
 import CreateSurvey from "./routes/CreateSurvey";
+import Survey from "./routes/Survey";
+import MySurveys from "./routes/MySurveys";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="createSurvey" element={<CreateSurvey />} />
+            <Route path="survey/:surveyId" element={<Survey />} />
+            <Route path={"mysurveys"} element={<MySurveys/>} />
           </Route>
           {/* <Route element={<HomeLayout />}>
           </Route> */}
