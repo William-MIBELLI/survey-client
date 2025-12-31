@@ -7,7 +7,7 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Check: FC<IProps> = ({ label, name, className, ...props }) => {
   return (
-    <div className="flex my-4 gap-2 items-center">
+    <div className={`flex my-4 gap-2 items-center  ${className ?? ""}`}>
       <div className='relative flex items-center justify-center w-5 h-5'>
         <input
           className='peer appearance-none w-5 h-5 border-2 border-black rounded-none bg-white checked:bg-black cursor-pointer transition-colors shrink-0'

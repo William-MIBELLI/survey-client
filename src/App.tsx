@@ -33,7 +33,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="createSurvey" element={<CreateSurvey />} />
             <Route path="survey/:surveyId" element={<Survey />} />
-            <Route path={"mysurveys"} element={<MySurveys/>} />
+            <Route path="mysurveys" element={<MySurveys/>} />
           </Route>
           {/* <Route element={<HomeLayout />}>
           </Route> */}

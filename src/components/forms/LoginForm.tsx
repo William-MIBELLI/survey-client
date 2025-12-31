@@ -21,7 +21,7 @@ const LoginForm = () => {
   const {} = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation()
-
+  // const redirectionPath = location.state.from.pathname ?? "/dashboard"
   const {
     handleSubmit,
     register,
@@ -41,10 +41,11 @@ const LoginForm = () => {
         },
       },
       onCompleted: (data) => {
-        navigate(location.state.from.pathname || '/');
+        navigate(location.state?.from?.pathname ?? '/dashboard');
       },
       update: async (cache, { data }) => {
         if (!data?.user) return;
+        await cache.reset()
         cache.writeQuery({
           query: ME,
           data: {

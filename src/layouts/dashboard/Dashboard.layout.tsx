@@ -6,8 +6,8 @@ const DashboardLayout = () => {
   const navigate = useNavigate()
   return (
     <div className="bg-orange-100 w-full h-screen flex">
-      <div className="bg-black w-1/3 border-r-4 border-black flex flex-col justify-start items-center gap-2 px-2">
-        <p className="text-orange-500 titleFont text-5xl my-7">Qrafter</p>
+      <div className="bg-black w-1/3 max-w-[370px] border-r-4 border-black flex flex-col justify-start items-center gap-2 px-2">
+        <Link to="/" className="text-orange-500 titleFont text-5xl my-7">Qrafter</Link>
         <div className="flex flex-col justify-center gap-3 font-semibold text-gray-400">
           <p className="hover:text-white cursor-pointer">
             Dashboard

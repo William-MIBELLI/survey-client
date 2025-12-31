@@ -13,8 +13,8 @@ const ProtectedRoute = () => {
       ) : user ? (
         <Outlet />
       ) : (
-        // <Navigate to={"/login"} replace state={{ from: location }} />
-        <Outlet />
+        <Navigate to={"/login"} replace state={{ from: location }} />
+        // <Outlet />
       )}
     </div>
   );

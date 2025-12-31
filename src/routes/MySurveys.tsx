@@ -20,10 +20,11 @@ import {
 import IconButton from "../components/ui/IconButton";
 import { isSurveyActive } from "../lib/utils";
 import { DELETE_SURVEY } from "../lib/mutations/survey.mutation";
+import { Navigate, useNavigate } from "react-router";
 
 const MySurveys = () => {
   const { user } = useAuthContext();
-  console.log("USER : ", user)
+  const navigate = useNavigate()
   const { data, loading, error, refetch } = useQuery<
     SurveysQuery,
     SurveysQueryVariables
@@ -44,24 +45,27 @@ const MySurveys = () => {
     },
   });
 
-  const [ deleteSurvey, { loading: deleteLoading}] = useMutation<DeleteSurveyMutation, DeleteSurveyMutationVariables>(DELETE_SURVEY)
+  const [deleteSurvey, { loading: deleteLoading }] = useMutation<
+    DeleteSurveyMutation,
+    DeleteSurveyMutationVariables
+  >(DELETE_SURVEY);
 
   const onDeleteSurvey = (id: string) => {
-    console.log('DELETE SURVEY : ', id)
+    console.log("DELETE SURVEY : ", id);
     deleteSurvey({
       variables: {
-        id
+        id,
       },
-      onCompleted: data => {
+      onCompleted: (data) => {
         if (data.deleteSurvey.success) {
-          refetch()
+          refetch();
         }
       },
-      onError: error => {
-        console.log("ERROR DELETE : ", error?.message)
-      }
-    })
-  }
+      onError: (error) => {
+        console.log("ERROR DELETE : ", error?.message);
+      },
+    });
+  };
 
   if (loading) {
     return <div>Loading surveys...</div>;
@@ -86,7 +90,10 @@ const MySurveys = () => {
                   {`${survey.node.candidates.totalCount} candidates`}
                 </p>
               </div>
-              {isSurveyActive(survey.node.startDate, survey.node.endDate) ? (
+              {isSurveyActive(
+                survey.node.startDate ?? undefined,
+                survey.node.endDate ?? undefined
+              ) ? (
                 <div className="flex items-center gap-1 italic">
                   <div className="w-2 h-2 rounded-full bg-green-400"></div>
                   <p>Active</p>
@@ -108,10 +115,14 @@ const MySurveys = () => {
               <IconButton text="Candidates" className="bg-purple-400">
                 <UserPlus size={15} />
               </IconButton>
-              <IconButton text="Edit" className="bg-orange-400">
+              <IconButton text="Edit" className="bg-orange-400" onClick={() => navigate(`/dashboard/survey/${survey.node.id}`)}>
                 <Pencil size={15} />
               </IconButton>
-              <IconButton text="Delete" className="bg-red-400" onClick={() => onDeleteSurvey(survey.node.id)}>
+              <IconButton
+                text="Delete"
+                className="bg-red-400"
+                onClick={() => onDeleteSurvey(survey.node.id)}
+              >
                 <Trash2 size={15} />
               </IconButton>
             </div>

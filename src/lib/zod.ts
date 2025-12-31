@@ -1,4 +1,5 @@
 import z from "zod";
+import { QuestionType } from "../gql/generated";
 
 export const signInSchema = z.object({
   email: z.email({ error: "Unvalid Email format address." }),
@@ -83,3 +84,11 @@ export const createSurveySchema = z
   );
 
 export type TCreateSurveySchema = z.infer<typeof createSurveySchema>;
+
+export const questionSchema = z.object({
+  label: z.string().min(3).max(255),
+  isMandatory: z.boolean(),
+  type: z.enum(QuestionType, {message: "Please select a question type"})
+})
+
+export type TQuestionSchema = z.infer<typeof questionSchema>

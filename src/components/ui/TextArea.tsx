@@ -8,7 +8,7 @@ interface IProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 const TextArea: FC<IProps> = forwardRef<HTMLTextAreaElement, IProps>((props, ref) => {
   return (
-     <div className="flex flex-col">
+     <div className={`flex flex-col ${ props.className ?? ""}`}>
         <label className="text-sm font-semibold italic" htmlFor={props.name}>
           {props.label}
         </label>
