@@ -92,3 +92,10 @@ export const questionSchema = z.object({
 })
 
 export type TQuestionSchema = z.infer<typeof questionSchema>
+
+export const createOptionSchema = z.object({
+  label: z.string().min(2).max(255),
+  withArgs: z.boolean()
+})
+
+export type TCreateOptionSchema = z.infer<typeof createOptionSchema>

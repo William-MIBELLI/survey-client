@@ -31,6 +31,7 @@ const NewQuestion: FC<IProps> = ({ setProgress }) => {
     MutationCreateQuestionArgs
   >(CREATE_QUESTION);
   const onSubmitHandler = (data: TQuestionSchema) => {
+    console.log("SUBMIT QUESTION")
     // const res = client.readQuery<SurveyQuery>({
     //   query: CURRENT_SURVEY
     // })
