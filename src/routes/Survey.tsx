@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import type { SurveyQuery, SurveyQueryVariables } from "../gql/generated";
 import { CURRENT_SURVEY } from "../lib/queries/survey.query";
 import CurrentSurveyResume from "../components/dashboard/CurrentSurveyResume";
-import QuestionList from "../components/dashboard/QuestionList";
+import QuestionList from "../components/question/QuestionList";
 
 const Survey = () => {
   const { surveyId } = useParams();
@@ -16,7 +16,7 @@ const Survey = () => {
         args: {},
         questionArgs: {},
       },
-    }
+    },
   );
 
   if (loading) {
@@ -33,11 +33,14 @@ const Survey = () => {
 
   if (data && data.currentSurvey) {
     const { currentSurvey } = data;
-    const { questions } = currentSurvey
+    const { questions } = currentSurvey;
     return (
       <div className="bg-amber-100 h-full w-full flex flex-col gap-4 p-8">
-        <CurrentSurveyResume currentSurvey={currentSurvey} candidates={currentSurvey.candidates.totalCount} />
-        <QuestionList list={questions}/>
+        <CurrentSurveyResume
+          currentSurvey={currentSurvey}
+          candidates={currentSurvey.candidates.totalCount}
+        />
+        <QuestionList list={questions} />
       </div>
     );
   }
