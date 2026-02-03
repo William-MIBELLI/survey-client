@@ -21,13 +21,11 @@ import { CURRENT_SURVEY } from "../../lib/queries/survey.query";
 
 interface IProps {
   setProgress: Dispatch<boolean>;
-  update: boolean;
   questionId?: string;
 }
 
 const NewQuestion: FC<IProps> = ({
   setProgress,
-  update = false,
   questionId,
 }) => {
   const { surveyId } = useParams();
@@ -78,8 +76,9 @@ const NewQuestion: FC<IProps> = ({
   }, [type]);
 
   useEffect(() => {
+    console.log("SURVEY ID : ", surveyId)
     if (questionId) {
-      const survey = client.cache.readQuery<SurveyQuery>({ query: CURRENT_SURVEY })
+      const survey = client.cache.readQuery<SurveyQuery>({ query: CURRENT_SURVEY, id: surveyId })
       console.log("SURVEY DANS NEW QUESTION : ", survey)
       if (survey) {
         const question = survey.currentSurvey?.questions.edges.find(q => q.node.id === questionId)

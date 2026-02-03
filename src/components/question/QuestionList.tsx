@@ -21,11 +21,9 @@ const QuestionList: FC<IProps> = ({ list }) => {
 
   useEffect(() => {
     if (currentQuestionId) {
-      setOnprogress(true)
+      setOnprogress(true);
     }
-  },[currentQuestionId])
-
-
+  }, [currentQuestionId]);
 
   return (
     <div className="w-full flex flex-col items-center  grow">
@@ -34,11 +32,10 @@ const QuestionList: FC<IProps> = ({ list }) => {
       </h2>
       <div className="flex w-full grow">
         <div className="w-4/5 flex flex-col gap-3">
-          {onProgress && (
+          {onProgress && currentQuestionId === undefined && (
             <NewQuestion
-              update={currentQuestionId !== undefined}
               setProgress={setOnprogress}
-              questionId= {currentQuestionId}
+              questionId={currentQuestionId}
             />
           )}
           {!edges.length ? (
@@ -46,9 +43,20 @@ const QuestionList: FC<IProps> = ({ list }) => {
               No questions 🥺
             </div>
           ) : (
-            edges.map((v) => (
-              <Question key={v.cursor} question={v} setCurrentId={setCurrentQuestionId} />
-            ))
+            edges.map((v) =>
+              v.node.id === currentQuestionId ? (
+                <NewQuestion
+                  questionId={currentQuestionId}
+                  setProgress={setOnprogress}
+                />
+              ) : (
+                <Question
+                  key={v.cursor}
+                  question={v}
+                  setCurrentId={setCurrentQuestionId}
+                />
+              ),
+            )
           )}
         </div>
         <div className=" grow flex flex-col justify-center ml-6 pl-6 border-l-4 border-black my-auto">
