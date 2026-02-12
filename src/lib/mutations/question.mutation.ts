@@ -10,3 +10,14 @@ export const CREATE_QUESTION = gql`
     }
   }
 `;
+
+export const UPDATE_QUESTION = gql`
+  mutation UpdateQuestion($args: UpdateQuestionInput!) {
+    updateQuestion(args: $args) {
+      id
+      label
+      type
+      isMandatory
+    }
+  }
+`;

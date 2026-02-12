@@ -1,15 +1,17 @@
 import React, { type Dispatch, type FC } from "react";
-import type { QuestionEdge, SurveyQuery } from "../../gql/generated";
+import type { SurveyQuery } from "../../gql/generated";
 import IconButton from "../ui/IconButton";
 import { Trash2 } from "lucide-react";
 
-interface IProps {
-  question: NonNullable<
+export type TQuestion = NonNullable<
     SurveyQuery["currentSurvey"]
-  >["questions"]["edges"][number];
+  >["questions"]["edges"][number]
+
+interface IProps {
+  question: TQuestion;
   setCurrentId: Dispatch<string>;
 }
-PageRevealEvent;
+
 
 const Question: FC<IProps> = ({ question, setCurrentId }) => {
   const { node } = question;

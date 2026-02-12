@@ -1,29 +1,26 @@
-import React, { useEffect, useState, type FC } from "react";
-import type { QuestionConnection, SurveyQuery } from "../../gql/generated";
+import  { useEffect, useState, type FC } from "react";
+import type {  SurveyQuery } from "../../gql/generated";
 import Button from "../ui/Button";
-import NewQuestion from "./NewQuestion";
 import Question from "./Question";
+import EditQuestion from "./EditQuestion";
+import CreateQuestion from "./CreateQuestion";
+
+export type TList = NonNullable<SurveyQuery["currentSurvey"]>["questions"]
 
 interface IProps {
-  list: NonNullable<SurveyQuery["currentSurvey"]>["questions"];
+  list: TList;
 }
 
 const QuestionList: FC<IProps> = ({ list }) => {
-  const [onProgress, setOnprogress] = useState<boolean>(false);
+  const [isCreating, setIsCreating] = useState<boolean>(false)
   const [currentQuestionId, setCurrentQuestionId] = useState<
     string | undefined
   >(undefined);
   const { edges, totalCount } = list;
 
   const addQuestion = () => {
-    setOnprogress(true);
+    setIsCreating(true);
   };
-
-  useEffect(() => {
-    if (currentQuestionId) {
-      setOnprogress(true);
-    }
-  }, [currentQuestionId]);
 
   return (
     <div className="w-full flex flex-col items-center  grow">
@@ -32,11 +29,8 @@ const QuestionList: FC<IProps> = ({ list }) => {
       </h2>
       <div className="flex w-full grow">
         <div className="w-4/5 flex flex-col gap-3">
-          {onProgress && currentQuestionId === undefined && (
-            <NewQuestion
-              setProgress={setOnprogress}
-              questionId={currentQuestionId}
-            />
+          {isCreating && (
+            <CreateQuestion setIsCreating={setIsCreating}/>
           )}
           {!edges.length ? (
             <div className="my-4 w-full bg-white text-center font-semibold shadowButton border-2 border-black">
@@ -45,9 +39,9 @@ const QuestionList: FC<IProps> = ({ list }) => {
           ) : (
             edges.map((v) =>
               v.node.id === currentQuestionId ? (
-                <NewQuestion
-                  questionId={currentQuestionId}
-                  setProgress={setOnprogress}
+                <EditQuestion
+                  question={v}
+                  setCurrentQuestionId={setCurrentQuestionId}
                 />
               ) : (
                 <Question
@@ -61,7 +55,7 @@ const QuestionList: FC<IProps> = ({ list }) => {
         </div>
         <div className=" grow flex flex-col justify-center ml-6 pl-6 border-l-4 border-black my-auto">
           <Button
-            loading={onProgress}
+            loading={isCreating}
             text="Add"
             onClick={addQuestion}
             className="bg-green-400"
