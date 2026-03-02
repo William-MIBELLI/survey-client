@@ -7,34 +7,20 @@ import QuestionOptions from "./QuestionOptions";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { questionSchema, type TQuestionSchema } from "../../lib/zod";
-import { useMutation } from "@apollo/client/react";
-import {
-  QuestionType,
-  type CreateQuestionMutation,
-  type MutationCreateQuestionArgs,
-  type SurveyQuery,
-} from "../../gql/generated";
-import { CREATE_QUESTION } from "../../lib/mutations/question.mutation";
-import { useParams } from "react-router";
-import { client } from "../../lib/apollo";
-import { CURRENT_SURVEY } from "../../lib/queries/survey.query";
+import { QuestionType } from "../../gql/generated";
 import type { TQuestion } from "./Question";
 
 interface IProps {
-  question?: TQuestion
-  cancel: () => void
-  submit: (data: TQuestionSchema) => Promise<void>
+  question?: TQuestion;
+  cancel: () => void;
+  submit: (data: TQuestionSchema) => Promise<void>;
 }
 
-const QuestionForm: FC<IProps> = ({
-  question,
-  cancel,
-  submit
-}) => {
+const QuestionForm: FC<IProps> = ({ question, cancel, submit }) => {
   const [optionDisplay, setOptionDisplay] = useState<boolean>(false);
 
   const onSubmitHandler = (data: TQuestionSchema) => {
-    submit(data)
+    submit(data);
   };
 
   const {
@@ -47,11 +33,17 @@ const QuestionForm: FC<IProps> = ({
     defaultValues: {
       isMandatory: question?.node.isMandatory || false,
       label: question?.node.label || "",
-      type: question?.node.type || QuestionType.Open
-
-    }
+      type: question?.node.type || QuestionType.Open,
+    },
   });
+
+  
+  //AFFICHAGE DES OPTIONS
   const type = useWatch({ control, name: "type" });
+
+  useEffect(() => {
+    setOptionDisplay(type !== "OPEN")
+  },[type])
 
 
   return (
@@ -66,7 +58,7 @@ const QuestionForm: FC<IProps> = ({
           {...register("label")}
           error={errors.label}
         />
-        <Select label="Type" {...register("type")} error={errors.type}>
+        <Select label="Type" {...register("type")} error={errors.type} >
           <option>Select type...</option>
           <option value={"OPEN"}>Open</option>
           <option value={"SIMPLE"}>Simple</option>
