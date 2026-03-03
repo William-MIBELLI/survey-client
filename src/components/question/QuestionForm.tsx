@@ -47,10 +47,10 @@ const QuestionForm: FC<IProps> = ({ question, cancel, submit }) => {
 
 
   return (
-    <div className="grow bg-white border-4 shadowButton border-black p-4 flex flex-col">
+    <div className="grow bg-white border-4 shadowButton border-black p-4 flex gap-3">
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
-        className="w-full grid grid-cols-2 gap-4  content-center justify-items-stretch"
+        className=" grid grid-cols-2 gap-4 w-1/2 content-center justify-items-stretch"
       >
         <TextArea
           label="Label"
@@ -69,15 +69,16 @@ const QuestionForm: FC<IProps> = ({ question, cancel, submit }) => {
           className="m-auto"
           {...register("isMandatory")}
         />
-        {optionDisplay && <QuestionOptions />}
         <Button text="Save" type="submit" className="col-span-1 bg-green-400" />
         <Button
           text="Cancel"
           type="button"
           className="col-span-1 bg-red-400"
           onClick={cancel}
-        />
+          />
       </form>
+      <div className="border-2 border-black"></div>
+        {optionDisplay && <QuestionOptions />}
     </div>
   );
 };

@@ -1,20 +1,29 @@
 import React, { type FC } from "react";
 import Option from "./Option";
-import type { TCreateOption } from "../../contexts/option.context";
+import {
+  useOptionContext,
+  type TCreateOption,
+} from "../../contexts/option.context";
+import UpdateOption from "./UpdateOption";
 
 interface IProps {
   options: TCreateOption[];
 }
 
 const OptionList: FC<IProps> = ({ options }) => {
+  const { currentSelectedOption } = useOptionContext();
 
-  const onDeleteOption = (index: number) => {
-
-  }
+  console.log("CURRENT DANS OPTIONLIST : ", currentSelectedOption)
   return (
-    <li className="flex flex-col gap-1 bg-red-200">
+    <li className="flex flex-col gap-1 max-h-[350px] overflow-y-auto">
       {options.length > 0 &&
-        options.map((option, index) => <Option key={index} data={option} />)}
+        options.map((option, index) =>
+          !currentSelectedOption || currentSelectedOption !== option.position ? (
+            <Option key={index} data={option} />
+          ) : (
+            <UpdateOption data={option} />
+          ),
+        )}
     </li>
   );
 };
