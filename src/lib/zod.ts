@@ -80,22 +80,37 @@ export const createSurveySchema = z
         );
       }
     },
-    { message: "End date must be after the start.", path: ["endDate"] }
+    { message: "End date must be after the start.", path: ["endDate"] },
   );
 
 export type TCreateSurveySchema = z.infer<typeof createSurveySchema>;
 
-export const questionSchema = z.object({
-  label: z.string().min(3).max(255),
-  isMandatory: z.boolean(),
-  type: z.enum(QuestionType, {message: "Please select a question type"})
-})
-
-export type TQuestionSchema = z.infer<typeof questionSchema>
-
-export const createOptionSchema = z.object({
+export const optionSchema = z.object({
   label: z.string().min(2).max(255),
-  withArgs: z.boolean()
-})
+  withArgs: z.boolean(),
+  position: z.number().nonnegative()
+});
 
-export type TCreateOptionSchema = z.infer<typeof createOptionSchema>
+export type TOptionSchema = z.infer<typeof optionSchema>;
+
+export const questionSchema = z
+  .object({
+    label: z.string().min(3).max(255),
+    isMandatory: z.boolean(),
+    type: z.enum(QuestionType, { message: "Please select a question type" }),
+    options: z.array(optionSchema).min(1).optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.type !== QuestionType.Open && !data.options) {
+        return false
+      };
+      return true
+    },
+    {
+      message: "The question require one item at least.",
+      path:['options']
+    },
+  );
+
+export type TQuestionSchema = z.infer<typeof questionSchema>;

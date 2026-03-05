@@ -8,20 +8,23 @@ import {
 
 interface IProps {
   data: TCreateOption;
+  onRemove: (position: number) => void
 }
 
-const Option: FC<IProps> = ({ data }) => {
+const Option: FC<IProps> = ({ data, onRemove }) => {
   const { label, withArgs, position } = data;
-  const { onDeleteOption, setCurrentSelectedOption } = useOptionContext();
+  const {  setCurrentSelectedOption } = useOptionContext();
+
 
   const onDeleteHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation()
-    onDeleteOption(position)
+    e.preventDefault()
+    onRemove(position)
   }
 
   return (
     <div
-      className="bg-blue-300  border-black border-2 flex justify-between items-center px-4 py-1.5"
+      className="bg-blue-300 hover:bg-blue-400  border-black border-2 flex cursor-pointer justify-between items-center px-4 py-1.5"
       onClick={() => setCurrentSelectedOption(position)}
     >
       <div className="flex gap-2">
