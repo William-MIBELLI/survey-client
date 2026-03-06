@@ -16,9 +16,7 @@ const QuestionOptions = () => {
   });
 
   const onAppend = (data: TCreateOption) => {
-    console.log("VALUE  AVANT APPEND : ", getValues())
     append(data);
-    console.log('VALUE APRES : ', getValues())
   };
 
   const onRemove = (position: number) => {
@@ -26,7 +24,7 @@ const QuestionOptions = () => {
   };
 
   const onUpdate = (data: TCreateOption) => {
-    update(data.position - 1, data);
+    update(data.position -1 , data);
   };
 
   return (

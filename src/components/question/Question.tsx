@@ -1,4 +1,4 @@
-import React, { type Dispatch, type FC } from "react";
+import { type FC } from "react";
 import type { SurveyQuery } from "../../gql/generated";
 import IconButton from "../ui/IconButton";
 import { Trash2 } from "lucide-react";
@@ -9,16 +9,16 @@ export type TQuestion = NonNullable<
 
 interface IProps {
   question: TQuestion;
-  setCurrentId: Dispatch<string>;
+  onQuestionClick: (id: string) => void
 }
 
-
-const Question: FC<IProps> = ({ question, setCurrentId }) => {
+const Question: FC<IProps> = ({ question, onQuestionClick }) => {
   const { node } = question;
+
   return (
     <div
       className="p-3 border-4 border-black bg-white shadowIconBtn flex cursor-pointer justify-around items-center"
-      onClick={() => setCurrentId(node.id)}
+      onClick={() => onQuestionClick(node.id)}
     >
       <p className="font-semibold text-orange-500">{node.label}</p>
       <p>{node.type.toLowerCase()}</p>

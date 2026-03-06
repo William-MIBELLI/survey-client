@@ -1,19 +1,21 @@
-import React, { type Dispatch, type FC } from "react";
+import { type Dispatch, type FC } from "react";
 import QuestionForm from "./QuestionForm";
 import type { TQuestionSchema } from "../../lib/zod";
 import { useMutation } from "@apollo/client/react";
 import type {
   CreateQuestionMutation,
-  MutationCreateQuestionArgs,
+  MutationCreateQuestionArgs
 } from "../../gql/generated";
 import { CREATE_QUESTION } from "../../lib/mutations/question.mutation";
 import { useParams } from "react-router";
+import { CURRENT_SURVEY } from "../../lib/queries/survey.query";
 
 interface IProps {
-  setIsCreating: Dispatch<boolean>;
+  setIsCreationOpen: Dispatch<boolean>;
+  isCreationOpen: boolean
 }
 
-const CreateQuestion: FC<IProps> = ({ setIsCreating }) => {
+const CreateQuestion: FC<IProps> = ({ setIsCreationOpen, isCreationOpen }) => {
   const { surveyId } = useParams();
 
   const [createQuestion, { data, loading, error }] = useMutation<
@@ -33,17 +35,28 @@ const CreateQuestion: FC<IProps> = ({ setIsCreating }) => {
         console.log("ERROR : ", error.message);
       },
       onCompleted: (data) => {
-        console.log("DATA DANS ONCOMPLETED : ", data);
-        setIsCreating(false)
+        setIsCreationOpen(false);
       },
+      refetchQueries: [
+        {
+          query: CURRENT_SURVEY,
+          variables: {
+            surveyId: surveyId!,
+            args: {},
+            questionArgs: {}
+          }
+        }
+      ]
     });
   };
 
   return (
     <div>
       <QuestionForm
-        cancel={() => setIsCreating(false)}
+        isOpen={isCreationOpen}
+        cancel={() => setIsCreationOpen(false)}
         submit={onCreateQuestion}
+        title="Create Question"
       />
     </div>
   );

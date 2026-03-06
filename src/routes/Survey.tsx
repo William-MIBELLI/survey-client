@@ -32,15 +32,16 @@ const Survey = () => {
   }
 
   if (data && data.currentSurvey) {
+
     const { currentSurvey } = data;
-    const { questions } = currentSurvey;
+
     return (
       <div className="bg-amber-100 h-full w-full flex flex-col gap-4 p-8">
         <CurrentSurveyResume
           currentSurvey={currentSurvey}
           candidates={currentSurvey.candidates.totalCount}
         />
-        <QuestionList list={questions} />
+        <QuestionList  surveyId={surveyId!} />
       </div>
     );
   }

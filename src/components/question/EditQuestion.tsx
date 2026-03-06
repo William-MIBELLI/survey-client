@@ -1,4 +1,4 @@
-import React, { type Dispatch, type FC } from "react";
+import { type FC } from "react";
 import type { TQuestion } from "./Question";
 import QuestionForm from "./QuestionForm";
 import type { TQuestionSchema } from "../../lib/zod";
@@ -11,13 +11,11 @@ import type {
 
 interface IProps {
   question: TQuestion;
-  setCurrentQuestionId: Dispatch<string | undefined>;
+  cancel: () => void;
+  isEditionOpen: boolean;
 }
 
-const EditQuestion: FC<IProps> = ({ question, setCurrentQuestionId }) => {
-  const cancel = () => {
-    setCurrentQuestionId(undefined);
-  };
+const EditQuestion: FC<IProps> = ({ question, cancel, isEditionOpen }) => {
 
   const [update, { data }] = useMutation<
     UpdateQuestionMutation,
@@ -29,21 +27,24 @@ const EditQuestion: FC<IProps> = ({ question, setCurrentQuestionId }) => {
       variables: {
         args: {
           ...data,
-          id: question.node.id
-        }
+          id: question.node.id,
+        },
       },
       onCompleted: () => {
-        setCurrentQuestionId(undefined)
-      }
-    })
+        cancel();
+      },
+    });
   };
 
   return (
     <div>
       <QuestionForm
+        key={question?.node.id}
         cancel={cancel}
         question={question}
         submit={onEditQuestion}
+        isOpen={isEditionOpen}
+        title="Edit Question"
       />
     </div>
   );

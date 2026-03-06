@@ -98,7 +98,7 @@ export const questionSchema = z
     label: z.string().min(3).max(255),
     isMandatory: z.boolean(),
     type: z.enum(QuestionType, { message: "Please select a question type" }),
-    options: z.array(optionSchema).min(1).optional(),
+    options: z.array(optionSchema).min(1, {message : "The question require one item at least."}).optional(),
   })
   .refine(
     (data) => {

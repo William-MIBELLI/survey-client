@@ -24,7 +24,7 @@ const NewOption: FC<IProps> = ({ onAppend, fieldsLength }) => {
     formState: { errors },
     register,
     reset,
-    handleSubmit,
+    handleSubmit: handleCreation,
   } = useForm({
     resolver: zodResolver(optionSchema),
 
@@ -32,7 +32,6 @@ const NewOption: FC<IProps> = ({ onAppend, fieldsLength }) => {
 
   const onCreateOption = (data: TOptionSchema) => {
     const newOption: TOptionSchema = { ...data };
-    console.log("ONCREATEOPTION : ", newOption)
     onAppend(newOption);
     reset();
   };
@@ -40,7 +39,8 @@ const NewOption: FC<IProps> = ({ onAppend, fieldsLength }) => {
   const onPressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault()
-      handleSubmit(onCreateOption)()
+      e.stopPropagation()
+      handleCreation(onCreateOption)()
     }
   }
 
@@ -60,7 +60,7 @@ const NewOption: FC<IProps> = ({ onAppend, fieldsLength }) => {
         text="Add"
         className="h-2/3 flex text-center"
         type="button"
-        onClick={handleSubmit(onCreateOption)}
+        onClick={handleCreation(onCreateOption)}
       />
     </div>
   );
