@@ -1,13 +1,16 @@
 import OptionList from "../option/OptionList";
-import {
-  useOptionContext,
-  type TCreateOption,
-} from "../../contexts/option.context";
+
 import NewOption from "../option/NewOption";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { type TQuestionSchema } from "../../lib/zod";
+import type { Dispatch, FC, SetStateAction } from "react";
+import type { TCreateOption } from "../../types/types";
 
-const QuestionOptions = () => {
+interface IProps {
+  handleDeletedOptionIds: (id: string) => void
+}
+
+const QuestionOptions: FC<IProps> = ({ handleDeletedOptionIds }) => {
   const { control, getValues } = useFormContext<TQuestionSchema>();
 
   const { fields, append, remove, update } = useFieldArray({
@@ -19,12 +22,16 @@ const QuestionOptions = () => {
     append(data);
   };
 
-  const onRemove = (position: number) => {
-    remove(position - 1);
+  const onRemove = (position: number, id?: string) => {
+    if (id) {
+      handleDeletedOptionIds(id)
+    }
+    remove(position);
   };
 
-  const onUpdate = (data: TCreateOption) => {
-    update(data.position -1 , data);
+  const onUpdate = (index: number, data: TCreateOption) => {
+    console.log('ON UPDATE : ', data);
+    update(index , data);
   };
 
   return (

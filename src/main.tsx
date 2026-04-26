@@ -5,15 +5,12 @@ import App from "./App.tsx";
 import { AuthContextProvider } from "./contexts/auth.context.tsx";
 import { ApolloProvider } from "@apollo/client/react";
 import { client } from "./lib/apollo.ts";
-import { OptionContextProvider } from "./contexts/option.context.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ApolloProvider client={client}>
       <AuthContextProvider>
-        <OptionContextProvider>
           <App />
-        </OptionContextProvider>
       </AuthContextProvider>
     </ApolloProvider>
   </StrictMode>

@@ -31,6 +31,7 @@ const QuestionList: FC<IProps> = ({ surveyId }) => {
   });
   const { edges, totalCount } = data?.currentSurvey?.questions!;
 
+
   const onQuestionClick = (id: string) => {
     const currentQuestion = data?.currentSurvey?.questions.edges.find(
       (q) => q.node.id === id,
@@ -59,6 +60,7 @@ const QuestionList: FC<IProps> = ({ surveyId }) => {
           <CreateQuestion
             setIsCreationOpen={setIsCreationOpen}
             isCreationOpen={isCreationOpen}
+            totalCount={totalCount}
           />
           <EditQuestion
             question={currentEditingQuestion!}

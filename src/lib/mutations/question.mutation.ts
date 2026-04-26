@@ -1,14 +1,20 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_QUESTION = gql`
-  mutation CreateQuestion($args: CreateQuestionInput!) {
-    createQuestion(args: $args) {
+mutation CreateQuestion($args: CreateQuestionInput!) {
+  createQuestion(args: $args) {
+    id
+    label
+    type
+    isMandatory
+    options {
       id
+      position
       label
-      type
-      isMandatory
+      withArgs
     }
   }
+}
 `;
 
 export const UPDATE_QUESTION = gql`
@@ -18,6 +24,15 @@ export const UPDATE_QUESTION = gql`
       label
       type
       isMandatory
+    }
+  }
+`;
+
+export const DELETE_QUESTION = gql`
+  mutation DeleteQuestion($args: DeleteQuestionInput!) {
+    deleteQuestion(args: $args) {
+      success
+      Message
     }
   }
 `;

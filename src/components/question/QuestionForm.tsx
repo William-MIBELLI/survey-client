@@ -28,15 +28,38 @@ const QuestionForm: FC<IProps> = ({
 }) => {
   const [optionDisplay, setOptionDisplay] = useState<boolean>(false);
   const [displayDirty, setDisplayDirty] = useState<boolean>(false);
-  const onSubmitHandler = (data: TQuestionSchema) => {
-    submit(data);
+  const [deletedOptionIds, setDeletedOptionIds] = useState<string[]>([]);
+
+  const handleDeletedOptionIds = (id: string) => {
+    setDeletedOptionIds((previous) => [...previous, id]);
   };
+
+  useEffect(() => {
+    // console.log('DELETED OPTIONS : ', deletedOptionIds)
+  }, [deletedOptionIds]);
+
+  const onSubmitHandler = (data: TQuestionSchema) => {
+    if (data.options) {
+      const reIndexedOptions = data.options.map((option, index) => ({
+        ...option,
+        position: index,
+      }));
+      submit({ ...data, options: reIndexedOptions, deletedOptionIds });
+    } else {
+      submit({ ...data, deletedOptionIds });
+    }
+    reset();
+  };
+
   const methods = useForm({
     resolver: zodResolver(questionSchema),
     defaultValues: {
       isMandatory: question?.node.isMandatory || false,
       label: question?.node.label || "",
       type: question?.node.type || QuestionType.Open,
+      options: question?.node
+        ? question.node.options.map((o) => ({ ...o, optionId: o.id }))
+        : undefined,
     },
   });
   const {
@@ -137,7 +160,9 @@ const QuestionForm: FC<IProps> = ({
               </div>
               <div className="border-2 border-black ml-3"></div>
               {optionDisplay ? (
-                <QuestionOptions />
+                <QuestionOptions
+                  handleDeletedOptionIds={handleDeletedOptionIds}
+                />
               ) : (
                 <div className="flex flex-col justify-center items-center mx-auto gap-3 text-sm font-semibold text-center ">
                   <p className="bg-cyan-300 -rotate-3">

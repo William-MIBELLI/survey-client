@@ -54,7 +54,9 @@ const MySurveys = () => {
     console.log("DELETE SURVEY : ", id);
     deleteSurvey({
       variables: {
-        id,
+        args: {
+          id
+        }
       },
       onCompleted: (data) => {
         if (data.deleteSurvey.success) {
@@ -83,7 +85,7 @@ const MySurveys = () => {
             key={survey.cursor}
             className="border-4 border-black shadowButton p-3 w-full flex items-start justify-between bg-white"
           >
-            <div className="flex items-start w-1/3 justify-between">
+            <div className="flex items-start w-fit gap-3 max-w-1/2  justify-between ">
               <div className="flex flex-col">
                 <p className="font-semibold italic">{survey.node.name}</p>
                 <p className="text-xs">

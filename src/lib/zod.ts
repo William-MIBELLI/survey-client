@@ -88,7 +88,8 @@ export type TCreateSurveySchema = z.infer<typeof createSurveySchema>;
 export const optionSchema = z.object({
   label: z.string().min(2).max(255),
   withArgs: z.boolean(),
-  position: z.number().nonnegative()
+  position: z.number().nonnegative(),
+  optionId: z.uuid().optional(),
 });
 
 export type TOptionSchema = z.infer<typeof optionSchema>;
@@ -98,18 +99,23 @@ export const questionSchema = z
     label: z.string().min(3).max(255),
     isMandatory: z.boolean(),
     type: z.enum(QuestionType, { message: "Please select a question type" }),
-    options: z.array(optionSchema).min(1, {message : "The question require one item at least."}).optional(),
+    options: z
+      .array(optionSchema)
+      .min(1, { message: "The question require one item at least." })
+      .optional(),
+      deletedOptionIds: z.array(z.string()).optional(),
+
   })
   .refine(
     (data) => {
       if (data.type !== QuestionType.Open && !data.options) {
-        return false
-      };
-      return true
+        return false;
+      }
+      return true;
     },
     {
       message: "The question require one item at least.",
-      path:['options']
+      path: ["options"],
     },
   );
 

@@ -1,33 +1,49 @@
-import React, { type FC } from "react";
+import { useState, type FC } from "react";
 import Option from "./Option";
-import {
-  useOptionContext,
-  type TCreateOption,
-} from "../../contexts/option.context";
 import UpdateOption from "./UpdateOption";
+import type { FieldArrayWithId } from "react-hook-form";
+import type { TQuestionSchema } from "../../lib/zod";
 
-type Top = TCreateOption & { id: string };
+export type TOptionField = FieldArrayWithId<TQuestionSchema, "options", "id">;
 
 interface IProps {
-  options: Top[];
+  options: TOptionField[];
   onRemove: (position: number) => void;
-  onUpdate: (data: any) => void;
+  onUpdate: (index: number, data: any) => void;
 }
 
 const OptionList: FC<IProps> = ({ options, onRemove, onUpdate }) => {
-  const { currentSelectedOption } = useOptionContext();
+  const [currentSelectedPosition, setCurrentSelectedPosition] =
+    useState<number>();
 
   return (
     <li className="flex flex-col gap-1 max-h-[350px] overflow-y-auto">
-      {options.length > 0 &&
-        options.map((option) =>
-          !currentSelectedOption ||
-          currentSelectedOption !== option.position ? (
-            <Option key={option.id} data={option} onRemove={onRemove} />
-          ) : (
-            <UpdateOption key={option.id} data={option} onUpdate={onUpdate} />
-          ),
-        )}
+      {options.length > 0 ? (
+        options
+          .map((option, index) =>
+            currentSelectedPosition === index ? (
+              <UpdateOption
+                key={option.id}
+                position={index}
+                data={option}
+                onUpdate={(data) => onUpdate(index, data)}
+                setCurrentSelectedPosition={setCurrentSelectedPosition}
+              />
+            ) : (
+              <Option
+                key={option.id}
+                position={index}
+                data={option}
+                setCurrentSelectedPosition={setCurrentSelectedPosition}
+                onRemove={onRemove}
+              />
+            ),
+          )
+      ) : (
+        <div className="text-center font-semibold text-sm text-white bg-red-400 m-fi py-2">
+          No options... 😢
+        </div>
+      )}
     </li>
   );
 };

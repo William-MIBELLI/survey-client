@@ -14,10 +14,10 @@ export const CREATE_SURVEY = gql`
 `;
 
 export const DELETE_SURVEY = gql`
-mutation DeleteSurvey($id: UUID!) {
-  deleteSurvey(id: $id) {
-    Message
+mutation DeleteSurvey($args: DeleteSurveyInput!) {
+  deleteSurvey(args: $args) {
     success
+    Message
   }
 }
 `;

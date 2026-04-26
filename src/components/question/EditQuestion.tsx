@@ -23,6 +23,7 @@ const EditQuestion: FC<IProps> = ({ question, cancel, isEditionOpen }) => {
   >(UPDATE_QUESTION);
 
   const onEditQuestion = async (data: TQuestionSchema) => {
+    console.log('DATA DANS LE SAVE : ', data)
     await update({
       variables: {
         args: {

@@ -1,8 +1,5 @@
-import React, { type FC } from "react";
-import {
-  useOptionContext,
-  type TCreateOption,
-} from "../../contexts/option.context";
+import React, { type Dispatch, type FC } from "react";
+
 import Input from "../ui/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,16 +7,23 @@ import { optionSchema } from "../../lib/zod";
 import Check from "../ui/Check";
 import IconButton from "../ui/IconButton";
 import { CheckIcon, CircleX } from "lucide-react";
+import type { TCreateOption } from "../../types/types";
+import type { TOptionField } from "./OptionList";
 
 interface IProps {
-  data: TCreateOption;
-  onUpdate: (data: any) => void;
+  data: TOptionField;
+  onUpdate: (data: TOptionField) => void;
+  position: number;
+  setCurrentSelectedPosition: Dispatch<number | undefined>;
 }
 
-const UpdateOption: FC<IProps> = ({ data, onUpdate }) => {
-  const { label, withArgs, position } = data;
-  const { onUpdateOption, setCurrentSelectedOption } = useOptionContext();
-
+const UpdateOption: FC<IProps> = ({
+  data,
+  onUpdate,
+  position,
+  setCurrentSelectedPosition,
+}) => {
+  const { label, withArgs } = data;
   const {
     handleSubmit,
     register,
@@ -32,9 +36,9 @@ const UpdateOption: FC<IProps> = ({ data, onUpdate }) => {
     },
   });
 
-  const onUpdateHandler = (data: TCreateOption) => {
-    onUpdate(data);
-    setCurrentSelectedOption(undefined);
+  const onUpdateHandler = (args: TCreateOption) => {
+    onUpdate({ ...data, ...args, position });
+    setCurrentSelectedPosition(undefined);
   };
 
   const onPressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -72,7 +76,7 @@ const UpdateOption: FC<IProps> = ({ data, onUpdate }) => {
         <IconButton
           text=""
           className="bg-white"
-          onClick={() => setCurrentSelectedOption(undefined)}
+          onClick={() => setCurrentSelectedPosition(undefined)}
         >
           <CircleX size={13} color="red" />
         </IconButton>
